@@ -16,14 +16,14 @@ import java.util.List;
 public class PostController
 {
 
-    @Autowired
+    @Autowired //Spring will create object and map it
     PostRepository repo;
 
     @Autowired
     SearchRepository srepo;
 
-    @ApiIgnore
-    @RequestMapping(value="/")
+    @ApiIgnore //removes predefined requests
+    @RequestMapping(value="/") //Request for homepage should go to swaggerapi
     public void redirect(HttpServletResponse response) throws IOException {
         response.sendRedirect("/swagger-ui.html");
     }
@@ -34,17 +34,20 @@ public class PostController
     {
         return repo.findAll();
     }
-    // posts/java
+
+
+    // posts/{java} -> dynamic value
     @GetMapping("/posts/{text}")
     @CrossOrigin
-    public List<Post> search(@PathVariable String text)
+    public List<Post> search(@PathVariable String text) //=> accepts in variable
     {
         return srepo.findByText(text);
     }
 
+
     @PostMapping("/post")
     @CrossOrigin
-    public Post addPost(@RequestBody Post post)
+    public Post addPost(@RequestBody Post post) //Reqbody accepts the data
     {
         return repo.save(post);
     }
